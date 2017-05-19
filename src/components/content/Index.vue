@@ -5,7 +5,7 @@
                 <!--当currentIndex与index相等的时候，设置高亮-->
                 <li v-for="(item,index) in food" :class="{'current':currentIndex === index}" @click="selectMenu(index,$event)" class="menu-item" v-cloak>
                     <span class="text">
-                            <span v-show="item.type>0" class="icon"  v-cloak></span> {{item.name}}{{showDetail}}
+                            <span v-show="item.type>0" class="icon"  v-cloak></span> {{item.name}}
                     </span>
                 </li>
             </ul>
@@ -26,7 +26,8 @@
                                     <span class="count">月售{{food.sellCount}}份</span>
                                     <span>好评率{{food.rating}}%</span>
                                 </div>
-                                <div class="price">
+                                <addfood :foodmoney="food.price"></addfood>
+                                <div class="price" >
                                     <span class="now">￥{{food.price}}</span>
                                     <span v-show="food.oldPrice" class="old">￥{{food.oldPrice}}</span>
                                 </div>
@@ -36,17 +37,16 @@
                 </li>
             </ul>
       </div>
-      <fooddetail :food="selectedFood" v-if="showDetail"></fooddetail>
+      <fooddetail :food="selectedFood" v-if="showDetail" v-on:msg="hideDetail" ></fooddetail>
 	</div>
 </template>
 
 <script>
 	import fooddetail from './foodDetail.vue'
+	import addfood from './Addfood.vue'
 	import BScroll from 'better-scroll'
 	import axios from 'axios'
 	import Vue from 'vue'
-
-	var Event=new Vue();
 	export default {
 		data(){
 			return{
@@ -66,15 +66,14 @@
 	                this._initScroll();
 	                this._calculateHeight();
 	            })
-		  });
+		    });
+		    
 		},
 		components:{
-			fooddetail
+			fooddetail,
+			addfood
 		},
 		mounted(){
-			Event.$on('msg',function(a){
-	            this.showDetail=a;
-	        }.bind(this));
 		},
 		methods:{
 			selectMenu (index,event) {
@@ -117,9 +116,11 @@
 		        }
 		    },
 		    goDetail(food){
-		    	this.selectedFood=food,
-		    	this.showDetail=!this.showDetail;
-		    	Event.$emit('msg',this.showDetail);
+		    	this.selectedFood=food;
+		    	this.showDetail = !this.showDetail;
+		    },
+		    hideDetail(){
+		    	this.showDetail = false;
 		    }
 		},
 		computed:{
@@ -182,10 +183,9 @@
 	height: 100px;
 }
  .goods {
-    position: absolute;
     width: 100%;
     top: 150px;
-    bottom: 46px;
+    height: 460px;
     display: flex;
     overflow: hidden;
 }
@@ -253,7 +253,9 @@
     transition: all .5s;
     line-height: 27px;
 }
-
+.content{
+	position: relative;
+}
 .goods .foods-wrapper .food-item {
     display: flex;
     margin: 18px 0 18px 0;

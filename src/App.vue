@@ -8,17 +8,17 @@
     		<router-link to="/commodity"><li>商家</li></router-link>
     	</ul>
     </div>
-    <div>
-    	<keep-alive>
-    		<router-view :goods.sync="goods"></router-view>
-    	</keep-alive>
-    </div>
+		<keep-alive>
+			<router-view :goods.sync="goods" v-on:moenys="show"></router-view>
+		</keep-alive>
+		
   </div>
 </template>
 
 <script>
 import axios from 'axios'
 import headers from './components/head/Head.vue'
+import food from './components/foot/foot.vue'
 
 export default {
   name: 'app',
@@ -29,10 +29,13 @@ export default {
     }
   },
   methods:{
-  	
+  	show(){
+  		console.log("hhh")
+  	}
   },
   components:{
   	headers,
+  	food
   },
   created(){
   	axios.get('../data.json').then((data)=>{
@@ -44,6 +47,9 @@ export default {
 </script>
 
 <style>
+	#app{
+		
+	}
 .nav{
 	width: 100%;
 	height: 50px;

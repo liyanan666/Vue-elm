@@ -70,13 +70,11 @@
 import BScroll from 'better-scroll'
 import Vue from 'vue'
 
-var Event=new Vue();
 export default {
  
   props: ['food'],
   data() {
     return {
-      showDetail:false,
       classifyArr: [{
         name: '全部',
         count: this.food.ratings.length,
@@ -111,14 +109,12 @@ export default {
   },
   mounted(){
   	this._initScroll();
-  	Event.$on('msg',function(a){
-        this.showDetail=a;
-    }.bind(this));
+  	
   },
   methods: {
     showToggle() {
       this.showDetail = !this.showDetail;
-      Event.$emit('msg',this.showDetail);
+      this.$emit('msg',false);
       if (this.showDetail) {
         this.$nextTick(() => {
           this._initScroll()
