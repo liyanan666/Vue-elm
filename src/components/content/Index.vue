@@ -5,17 +5,17 @@
                 <!--当currentIndex与index相等的时候，设置高亮-->
                 <li v-for="(item,index) in food" :class="{'current':currentIndex === index}" @click="selectMenu(index,$event)" class="menu-item" v-cloak>
                     <span class="text">
-                            <span v-show="item.type>0" class="icon"  v-cloak></span> {{item.name}}
+                            <span v-show="item.type>0" class="icon"  v-cloak></span> {{item.name}}{{showDetail}}
                     </span>
                 </li>
             </ul>
         </div>
 		<div class="foods-wrapper" ref="foodwrapper">
             <ul>
-                <li v-for="(item,index) in food" class="food-list food-list-hook" v-cloak>
+                <li v-for="(item,index) in food"  class="food-list food-list-hook" v-cloak>
                     <h2 class="title" >{{item.name}}</h2>
                     <ul>
-                        <li v-for="food in item.foods" class="food-item">
+                        <li v-for="food in item.foods" class="food-item" @click="goDetail(food)">
                             <div class="icon">
                                 <img :src="food.icon" />
                             </div>
@@ -36,12 +36,17 @@
                 </li>
             </ul>
       </div>
+      <fooddetail :food="selectedFood" v-if="showDetail"></fooddetail>
 	</div>
 </template>
 
 <script>
+	import fooddetail from './foodDetail.vue'
 	import BScroll from 'better-scroll'
 	import axios from 'axios'
+	import Vue from 'vue'
+
+	var Event=new Vue();
 	export default {
 		data(){
 			return{
@@ -49,7 +54,7 @@
 				menuindex:0,
 		        listHeight: [],
 		        scrollY: 0,
-		        selectedFood: ''
+		        showDetail: false
 			}
 		},
 		
@@ -62,6 +67,14 @@
 	                this._calculateHeight();
 	            })
 		  });
+		},
+		components:{
+			fooddetail
+		},
+		mounted(){
+			Event.$on('msg',function(a){
+	            this.showDetail=a;
+	        }.bind(this));
 		},
 		methods:{
 			selectMenu (index,event) {
@@ -102,6 +115,11 @@
 		                height += item.clientHeight
 		            this.listHeight.push(height);
 		        }
+		    },
+		    goDetail(food){
+		    	this.selectedFood=food,
+		    	this.showDetail=!this.showDetail;
+		    	Event.$emit('msg',this.showDetail);
 		    }
 		},
 		computed:{

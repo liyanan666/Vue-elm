@@ -9,7 +9,9 @@
     	</ul>
     </div>
     <div>
-    	<router-view :goods.sync="goods"></router-view>
+    	<keep-alive>
+    		<router-view :goods.sync="goods"></router-view>
+    	</keep-alive>
     </div>
   </div>
 </template>
@@ -17,6 +19,7 @@
 <script>
 import axios from 'axios'
 import headers from './components/head/Head.vue'
+
 export default {
   name: 'app',
   data () {
