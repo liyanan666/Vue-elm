@@ -18,7 +18,7 @@
 <script>
 import axios from 'axios'
 import headers from './components/head/Head.vue'
-import food from './components/foot/foot.vue'
+
 
 export default {
   name: 'app',
@@ -35,7 +35,6 @@ export default {
   },
   components:{
   	headers,
-  	food
   },
   created(){
   	axios.get('../data.json').then((data)=>{

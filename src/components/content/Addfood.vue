@@ -1,31 +1,36 @@
 <template>
 	<div class="addfood" @click.stop="">
-		<span class="circle reduce" @click="reduces()">-</span>{{num}}<span class="circle add" @click="adds()">+</span>
+		<span class="circle reduce" @click="reduces()" v-if="food.count>0">-</span>{{food.count}}<span class="circle add" @click="adds($event)">+</span>
 	</div>
 </template>
 
 <script>
-	import {mapGetters,mapActions} from 'vuex'
+	import Vue from 'vue'
+	import {mapActions} from 'vuex'
 	export default{
 		data(){
 			return{
 				num:0
 			}
 		},
-		props:['foodmoney'],
+		props:['food'],
 		methods:{
-			adds(){
-				this.num++;
+			adds(event){
+				if(!this.food.count){
+					Vue.set(this.food,'count',0);
+				}
+				this.food.count++;
 			},
 			reduces(){
-				if(this.num<=0){
+				if(this.food.count<=0){
 					return 
 				}else{
-					this.num--;
+					this.food.count--;
 				}
 			}
-		},
-		com
+			
+		}
+		
 	}
 </script>
 

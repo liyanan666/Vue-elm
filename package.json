@@ -16,6 +16,7 @@
     "axios": "^0.16.1",
     "babel-core": "^6.0.0",
     "babel-loader": "^6.0.0",
+    "babel-plugin-transform-object-rest-spread": "^6.23.0",
     "babel-preset-latest": "^6.0.0",
     "better-scroll": "^0.1.15",
     "cross-env": "^3.0.0",

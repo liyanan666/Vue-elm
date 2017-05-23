@@ -1,21 +1,28 @@
 <template>
 	<div class="shop" >
-		<span class="circle" v-on:moneys="changemoney">
-			{{money}}
+		<span class="circle">
+			{{moeny}}	
 		</span>
 	</div>
 </template>
 
 <script>
 	export default{
+		props:['selecteds'],
 		data(){
 			return{
-				money:0
 			}
 		},
 		methods:{
-			changemoney(){
-				alert(1)
+			
+		},
+		computed:{
+			moeny(){
+				let moneys = 0;
+				for (var i=0;i<this.selecteds.length;i++) {
+					moneys+=this.selecteds[i].count*this.selecteds[i].price;
+				}
+				return moneys;
 			}
 		},
 		mounted(){

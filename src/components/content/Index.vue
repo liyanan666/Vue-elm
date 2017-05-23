@@ -2,7 +2,6 @@
 	<div class="goods" id="" v-cloak>
 		<div class="menu-wrapper" ref="menuwrapper">
             <ul>
-                <!--当currentIndex与index相等的时候，设置高亮-->
                 <li v-for="(item,index) in food" :class="{'current':currentIndex === index}" @click="selectMenu(index,$event)" class="menu-item" v-cloak>
                     <span class="text">
                             <span v-show="item.type>0" class="icon"  v-cloak></span> {{item.name}}
@@ -26,7 +25,7 @@
                                     <span class="count">月售{{food.sellCount}}份</span>
                                     <span>好评率{{food.rating}}%</span>
                                 </div>
-                                <addfood :foodmoney="food.price"></addfood>
+                                <addfood v-on:num="hh" :food="food"></addfood>
                                 <div class="price" >
                                     <span class="now">￥{{food.price}}</span>
                                     <span v-show="food.oldPrice" class="old">￥{{food.oldPrice}}</span>
@@ -36,13 +35,15 @@
                     </ul>
                 </li>
             </ul>
-      </div>
+     </div>
+      <food :selecteds="selecteds"></food>
       <fooddetail :food="selectedFood" v-if="showDetail" v-on:msg="hideDetail" ></fooddetail>
 	</div>
 </template>
 
 <script>
 	import fooddetail from './foodDetail.vue'
+	import food from '../foot/foot.vue'
 	import addfood from './Addfood.vue'
 	import BScroll from 'better-scroll'
 	import axios from 'axios'
@@ -57,7 +58,6 @@
 		        showDetail: false
 			}
 		},
-		
 		created() {
 			this.classMap = ['decrease', 'discount', 'guarantee', 'invoice', 'special'];
 			axios.get('../data.json').then((data)=>{
@@ -71,9 +71,11 @@
 		},
 		components:{
 			fooddetail,
-			addfood
+			addfood,
+			food
 		},
 		mounted(){
+			
 		},
 		methods:{
 			selectMenu (index,event) {
@@ -121,6 +123,9 @@
 		    },
 		    hideDetail(){
 		    	this.showDetail = false;
+		    },
+		    hh(data){
+		    	
 		    }
 		},
 		computed:{
@@ -135,6 +140,17 @@
 		            }
 		        }
 		        return 0;
+		    },
+		    selecteds(){
+		    	let foods = [];
+		    	this.food.forEach((good) => {
+			        good.foods.forEach((food2) => {
+			          if (food2.count) {
+			            foods.push(food2)
+			          }
+			        })
+			    })
+		      	return foods
 		    }
 	    },
 	}       
