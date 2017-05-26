@@ -135,7 +135,7 @@ export default {
         return
       }
       this.$set(this.food, 'count', 1)
-      this.$root.eventHub.$emit('cart.add', event.target)
+      
     },
     filterEvel(item) {
       this.classifyArr.forEach((data) => {

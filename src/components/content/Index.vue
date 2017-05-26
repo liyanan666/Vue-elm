@@ -1,44 +1,47 @@
 <template>
-	<div class="goods" id="" v-cloak>
-		<div class="menu-wrapper" ref="menuwrapper">
-            <ul>
-                <li v-for="(item,index) in food" :class="{'current':currentIndex === index}" @click="selectMenu(index,$event)" class="menu-item" v-cloak>
-                    <span class="text">
-                            <span v-show="item.type>0" class="icon"  v-cloak></span> {{item.name}}
-                    </span>
-                </li>
-            </ul>
-        </div>
-		<div class="foods-wrapper" ref="foodwrapper">
-            <ul>
-                <li v-for="(item,index) in food"  class="food-list food-list-hook" v-cloak>
-                    <h2 class="title" >{{item.name}}</h2>
-                    <ul>
-                        <li v-for="food in item.foods" class="food-item" @click="goDetail(food)">
-                            <div class="icon">
-                                <img :src="food.icon" />
-                            </div>
-                            <div class="content">
-                                <h2 class="name">{{food.name}}</h2>
-                                <p class="desc">{{food.description}}</p>
-                                <div class="extra">
-                                    <span class="count">月售{{food.sellCount}}份</span>
-                                    <span>好评率{{food.rating}}%</span>
-                                </div>
-                                <addfood v-on:num="hh" :food="food"></addfood>
-                                <div class="price" >
-                                    <span class="now">￥{{food.price}}</span>
-                                    <span v-show="food.oldPrice" class="old">￥{{food.oldPrice}}</span>
-                                </div>
-                            </div>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
-     </div>
-      <food :selecteds="selecteds"></food>
-      <fooddetail :food="selectedFood" v-if="showDetail" v-on:msg="hideDetail" ></fooddetail>
-	</div>
+	<div>
+		<div class="goods" id="" v-cloak>
+			<div class="menu-wrapper" ref="menuwrapper">
+	            <ul>
+	                <li v-for="(item,index) in food" :class="{'current':currentIndex === index}" @click="selectMenu(index,$event)" class="menu-item" v-cloak>
+	                    <span class="text">
+	                            <span v-show="item.type>0" class="icon"  v-cloak></span> {{item.name}}
+	                    </span>
+	                </li>
+	            </ul>
+	        </div>
+			<div class="foods-wrapper" ref="foodwrapper">
+	            <ul>
+	                <li v-for="(item,index) in food"  class="food-list food-list-hook" v-cloak>
+	                    <h2 class="title" >{{item.name}}</h2>
+	                    <ul>
+	                        <li v-for="food in item.foods" class="food-item" @click="goDetail(food)">
+	                            <div class="icon">
+	                                <img :src="food.icon" />
+	                            </div>
+	                            <div class="content">
+	                                <h2 class="name">{{food.name}}</h2>
+	                                <p class="desc">{{food.description}}</p>
+	                                <div class="extra">
+	                                    <span class="count">月售{{food.sellCount}}份</span>
+	                                    <span>好评率{{food.rating}}%</span>
+	                                </div>
+	                                <addfood v-on:num="hh" :food="food"></addfood>
+	                                <div class="price" >
+	                                    <span class="now">￥{{food.price}}</span>
+	                                    <span v-show="food.oldPrice" class="old">￥{{food.oldPrice}}</span>
+	                                </div>
+	                            </div>
+	                        </li>
+	                    </ul>
+	                </li>
+	            </ul>
+	     	</div>
+	      
+		</div>
+		<food :selecteds="selecteds"></food>
+	    <fooddetail :food="selectedFood" v-if="showDetail" v-on:msg="hideDetail" ></fooddetail>
+   </div>
 </template>
 
 <script>
@@ -66,8 +69,7 @@
 	                this._initScroll();
 	                this._calculateHeight();
 	            })
-		    });
-		    
+		   });
 		},
 		components:{
 			fooddetail,
@@ -201,9 +203,10 @@
  .goods {
     width: 100%;
     top: 150px;
-    height: 460px;
+    bottom: 50px;
     display: flex;
     overflow: hidden;
+    position: absolute;
 }
 
 .goods .menu-wrapper {
